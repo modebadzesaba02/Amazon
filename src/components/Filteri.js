@@ -1,83 +1,109 @@
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link, useParams, useLocation } from "react-router-dom";
+import { toast } from "react-toastify";
 import Item from "./Item";
 import Footer from "./Footer";
-import { useEffect } from "react";
-import axios from "axios";
-import { useState } from "react";
 
-
-const Filteri = () => {
-  const [priceone, setPriceone] = useState();
-  const [pricetwo, setPricetwo] = useState();
+const Filter = () => {
   const [data, setData] = useState([]);
+  const [pricefrom, setPricefrom] = useState();
+  const [priceto, setPriceto] = useState();
+  const [categoryName, setCategoryName] = useState("");
+  
+
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const id = searchParams.get("selectValue");
+  const brandName = searchParams.get("brandName");
+
   useEffect(() => {
     axios
-      .get("https://amazon-digital-prod.azurewebsites.net/api/product/products", {
+      .get("https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/categories")
+      .then((result) => {
+        const category = result.data.find((item) => item.id === id);
+        if (category) {
+          setCategoryName(category.name);
+        }
+      });
+  }, [id]);
+
+  const notify = () => toast("Write correct price");
+
+  useEffect(() => {
+    axios
+      .get(`https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/products`, {
         params: {
-          priceFrom: priceone,
-          priceTo: pricetwo,
-         
+          CategoryId: id,
+          priceFrom: pricefrom >= 500000 ? notify() : pricefrom,
+          priceTo: priceto >= 50000 ? notify() : priceto,
+          brandName: brandName,
         },
       })
-      .then((result) => setData(result.data))
-      .catch((err) => console.log(err));
-  }, []);
-
-  
-  
+      .then((result) => setData(result.data));
+  }, [id, pricefrom, priceto, brandName]);
 
   return (
-    <div className="">
-      <Item />
-      <div className="flex justify-between mb-8">
-        <div className="flex space-x-4">
-          <input
-            type="text"
-            placeholder="Price from"
-            className="w-32 px-2 py-1 border rounded"
-            value={priceone}
-            onChange={(e) => setPriceone(e.target.value)}
-          />
-          <input
-            type="text"
-            placeholder="Price to"
-            className="w-32 px-2 py-1 border rounded"
-            value={pricetwo}
-            onChange={(e) => setPricetwo(e.target.value)}
-          />
-          <button
-            className="bg-yellow-500 text-white px-4 py-2 rounded"
-            onClick={() => {
-            }}
-          >
-            Go
-          </button>
+    <div>
+      <Item></Item>
+    <div className="flex justify-between bg-grey-400 min-h-[100vh] items-start">
+      <div className="flex  min-w-[140px]   justify-between flex-col gap-6 mt-3 ml-8">
+        <div className="flex w-44 items-start gap-4">
+          <p className="text-lg">
+            Category:
+            <span className="font-semibold text-xl">
+              {" "}
+              {categoryName === "" ? "All" : categoryName}
+            </span>
+          </p>
         </div>
-        <div className="text-right">
-         
-       
-        </div>
+        <p className="text-lg">
+          price from: <br></br>
+          <input
+            value={pricefrom}
+            type="number"
+            placeholder="$"
+            onChange={(e) => setPricefrom(e.target.value)}
+            className="w-36 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none rounded-lg border border-amber-400"
+          ></input>
+        </p>
+        <p className="text-lg">
+          price to:<br></br>
+          <input
+            value={priceto}
+            placeholder="$"
+            type="number"
+            onChange={(e) => setPriceto(e.target.value)}
+            className="w-36 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none  rounded-lg border border-amber-400"
+          ></input>
+        </p>
       </div>
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-8">
+      <div className="flex flex-wrap  justify-center mt-3 gap-8">
         {data.map((item) => (
-          <div
-            key={item.id}
-            className="border p-4 rounded shadow-md transition-transform transform hover:scale-105"
-          >
-            <img src={item.images} alt={item.name} className="w-full h-auto" />
-            <p className="text-lg font-semibold my-2">{item.name}</p>
-            <p className="text-yellow-600 text-xl">{item.price}</p>
-            <button
-              className="bg-yellow-500 text-white px-4 py-2 rounded mt-2 hover:bg-yellow-400"
-            >
-              Buy Now
-            </button>
-          </div>
+          <Link key={item.id} to={`/Details/${item.id}`}>
+            <div className="p-4 border bg-gray-100 border-gray-300 w-64 rounded-lg shadow-md ">
+              <img
+                src={`${item.images}`}
+                alt="no image"
+                className="w-full object-cover  h-[310px] rounded-lg  "
+              ></img>
+              <p className="mt-2 text-lg font-semibold text-blue-950">
+                <span className="text-xs align-text-top">$</span>
+                {item.price}
+              </p>
+              <p className="truncate">{item.name}</p>
+            </div>
+          </Link>
         ))}
       </div>
-      <Footer />
+      <p> </p>
+    </div>
+    <Footer></Footer>
     </div>
   );
 };
 
-export default Filteri;
+
+
+
+export default Filter;

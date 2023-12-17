@@ -1,0 +1,17 @@
+
+.surati{
+   height: 300px;
+    width: auto;
+    padding-left: 15px;
+  margin-bottom: 30px;
+}
+
+@media (max-width: 480px) {
+  .surati{
+    height: 140px;
+     width: auto;
+     padding-left: 15px;
+   margin-bottom: 30px;
+ }
+
+}

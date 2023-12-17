@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 import { useSelector } from "react-redux";
 import axios from "axios";
 import Item from "./Item";
+import Footer from "./Footer";
 
 const User = () => {
   const token = useSelector((state) => state.token.token);
@@ -19,7 +20,7 @@ const User = () => {
     if (decodedToken && decodedToken.email) {
       axios
         .post(
-          `https://digitalinstitute-amazon.azurewebsites.net/api/user/getByEmail`,
+          `https://ngglobalwebapi20231210182820.azurewebsites.net/api/user/getByEmail`,
           { email: decodedToken.email }
         )
         .then((result) => {
@@ -42,12 +43,12 @@ const User = () => {
   const handleUpdateUser = () => {
     axios
       .put(
-        `https://digitalinstitute-amazon.azurewebsites.net/api/User/updateuserdata`,
+        `https://ngglobalwebapi20231210182820.azurewebsites.net/api/User/updateuserdata`,
         {
-          'id':data[0].id,
-          'userName':newUsername==''?data[0].userName:newUsername,
-          'email':newEmail==''?data[0].email:newEmail,
-          'newPassword':newPassword==''?data[0].password:newPassword
+         'id':data[0].id,
+          'userName':newUsername==data[0].userName?data[0].userName:newUsername,
+          'email':newEmail==data[0].email?data[0].email:newEmail,
+          'newPassword':newPassword==data[0].password?data[0].password:newPassword
 
         }
       )
@@ -77,6 +78,7 @@ const User = () => {
               <p>Loading...</p>
             ) : (
               <div className="flex flex-col gap-3 pb-2">
+                {console.log(data[0])}
                 <p>User name: {data[0]?.userName}</p>
                 <p>Email: {data[0]?.email}</p>
                 
@@ -112,6 +114,7 @@ const User = () => {
           </div>
         </div>
       </div>
+      <Footer></Footer>
     </div>
   );
 };

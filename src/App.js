@@ -34,7 +34,7 @@ function App() {
       <Route path='/Filter' element={<Filteri></Filteri>}></Route>
       <Route path='/Detail/:id' element={<Detail></Detail>}></Route>
     </Routes>
-    
+  
     
    
    

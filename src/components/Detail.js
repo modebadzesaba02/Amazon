@@ -21,7 +21,7 @@ const Detail = () => {
 
   useEffect(() => {
     axios
-      .get(`https://digitalinstitute-amazon.azurewebsites.net/api/product/products/${id}`,
+      .get(`https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/products/${id}`,
        
       )
       .then((result) => setData(result.data))

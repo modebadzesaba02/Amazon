@@ -16,7 +16,7 @@ export default function Register() {
 
   const closeModalWithNotify = () => {
     
-    axios.post('https://digitalinstitute-amazon.azurewebsites.net/api/user/registerUser', {
+    axios.post('https://ngglobalwebapi20231210182820.azurewebsites.net/api/user/registerUser', {
       "userName": userName,
       "password": password,
       "email": email
@@ -81,7 +81,7 @@ export default function Register() {
         >
           Register
         </Dialog.Title>
-        <img
+        <img alt='altertantive'
           className="w-28"
           src="https://www.themobileindian.com/wp-content/uploads/2021/06/amazon-india-a.jpg"
         ></img>

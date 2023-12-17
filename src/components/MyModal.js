@@ -20,7 +20,7 @@ export default function MyModal() {
 
   const closeModalWithNotify = () => {
     
-    axios.post('https://digitalinstitute-amazon.azurewebsites.net/api/User/LogIn', {
+    axios.post('https://ngglobalwebapi20231210182820.azurewebsites.net/api/User/LogIn', {
       
       "password": password,
       "email": email
@@ -89,7 +89,7 @@ export default function MyModal() {
         >
           Log In
         </Dialog.Title>
-        <img
+        <img alt='alternative'
           className="w-28"
           src="https://www.themobileindian.com/wp-content/uploads/2021/06/amazon-india-a.jpg"
         ></img>

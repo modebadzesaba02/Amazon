@@ -5,28 +5,28 @@ import axios from "axios";
 import Item from "./Item";
 import Footer from "./Footer";
 import { Link } from "react-router-dom";
+import '../Products.css'
 
-import img1 from '/Users/User/my-project/src/61XO4bORHUL._AC_SL1500_.jpg';
-import img2 from '/Users/User/my-project/src/download.jpg';
+
 
 const Products = () => {
   const [data, SetData] = useState([]);
   const [data1, SetData1] = useState([]);
   const [data2, SetData2] = useState([]);
   useEffect(() => {
-    axios.get('https://digitalinstitute-amazon.azurewebsites.net/api/product/latestproducts')
+    axios.get('https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/latestproducts')
       .then(result => SetData(result.data))
       .catch(err => console.log(err))
   }, []);
 
   useEffect(() => {
-    axios.get('https://digitalinstitute-amazon.azurewebsites.net/api/product/offers')
+    axios.get('https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/offers')
       .then(result => SetData1(result.data))
       .catch(err => console.log(err))
   }, []);
 
   useEffect(() => {
-    axios.get('https://digitalinstitute-amazon.azurewebsites.net/api/product/mostdemandproducts ')
+    axios.get('https://ngglobalwebapi20231210182820.azurewebsites.net/api/product/mostdemandproducts ')
       .then(result => SetData2(result.data))
       .catch(err => console.log(err))
   }, []);
@@ -49,8 +49,8 @@ const Products = () => {
         <Slider {...settings}>
           {data.map(item =>
             <Link  key={item.id} to={`./Detail/${item.id}`}>
-              <div className="pl-[20px] pb-[50px] pt-[30px] border-r-4">
-                <img src={item.images} className="h-[300px] w-[auto] pr-[20px] mb-[30px]" alt={item.name} />
+              <div className=" l-[20px] pb-[50px] pt-[30px] border-r-4">
+                <img src={item.images}   className="surati" alt={item.name} />
                 <h3 className="pt-[20px]"><b>Price: </b>{item.price}$</h3>
                 <p className="truncate"><b>Name: </b>{item.name}</p>
               </div>
@@ -67,7 +67,7 @@ const Products = () => {
           {data1.map(item =>
             <Link key={item.id} to={`./Detail/${item.id}`}>
               <div className="pl-[20px] pb-[50px] pt-[30px] border-r-4">
-                <img src={item.image} className="h-[300px] w-[auto] pr-[20px] mb-[30px]" alt={item.name} />
+                  <img src={item.image}   className="surati" alt={item.name} />
                 <h3><b>Old price : </b><i className="text-decoration-line: line-through">{item.oldPrice}$</i><br /><b> New Price: </b>{item.newPrice}$</h3>
                 <p className="truncate"><b>Name: </b>{item.name}</p>
               </div>
@@ -84,7 +84,7 @@ const Products = () => {
           {data2.map(item =>
             <Link  key={item.id} to={`./Detail/${item.id}`}>
               <div className="pt-[40px] pl-[20px] pb-[50px] border-r-4">
-                <img src={item.images} className="h-[300px] w-[auto] pr-[20px] mb-[30px]" alt={item.name} />
+              <img src={item.images}   className="surati" alt={item.name} />
                 <h3><b>Price: </b>{item.price}$</h3>
                 <p className="truncate"><b>Name: </b>{item.name}</p>
               </div>
